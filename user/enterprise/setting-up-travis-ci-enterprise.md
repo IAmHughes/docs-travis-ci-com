@@ -74,7 +74,7 @@ Ubuntu 16.04 LTS or later as the underlying operating system.
     sudo bash /tmp/installer.sh
     ```
 
-3. *In your browser*, navigate to `https://<hostname>:8800` (your Enterprise
+3. *In your browser*, navigate to `https://<your-travis-ci-enterprise-domain>:8800` (your Enterprise
 installation's hostname, port 8800) to complete the setup:
 
    1. Add a secure certificate or configure a trusted one.
@@ -84,6 +84,7 @@ installation's hostname, port 8800) to complete the setup:
    1. Optionally, configure Email, Metrics and Caches.
    1. Copy the *RabbitMQ password* for the Worker setup.
 
+> If you have decided to use a self-signed certificate there may be additional configuration steps required. Please see our page on [SSL Certificate Management](/user/enterprise/ssl-certificate-management) for more information.
 
 ## 2. Setting up the Enterprise Worker virtual machine
 

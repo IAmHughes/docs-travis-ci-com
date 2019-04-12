@@ -130,7 +130,7 @@ Deploy keys are not currently supported by LFS, so you should use a GitHub OAuth
 
 ### Linux
 
-[Git LFS](https://git-lfs.github.com/) is supported by default on our Ubuntu Trusty images.
+[Git LFS](https://git-lfs.github.com/) is supported by default on our Ubuntu Trusty and Xenial images.
 
 ### macOS
 
@@ -534,7 +534,10 @@ Now, the build result will be determined as soon as all the required jobs finish
 
 ## Implementing Complex Build Steps
 
-TODO: link
+If you have a complex build environment that is hard to configure in the `.travis.yml`, consider moving the steps into a separate shell script.
+The script can be a part of your repository and can easily be called from the `.travis.yml`.
+
+See [Complex Build Commands](/user/job-lifecycle#complex-build-commands) for more information on how to do this.
 
 ## Custom Hostnames
 

@@ -24,7 +24,7 @@ language: node_js
 
 </aside>
 
-{{ site.data.snippets.trusty_note }}
+{{ site.data.snippets.all_note }}
 
 This guide covers build environment and configuration topics specific to JavaScript and Node.js
 projects. Please make sure to read our [Tutorial](/user/tutorial/)
@@ -36,7 +36,6 @@ The easiest way to specify Node.js versions is to use one or more of the latest
 releases in your `.travis.yml`:
 
 - `node` latest stable Node.js release
-- `iojs` latest stable io.js release
 - `lts/*` latest LTS Node.js release
 {% for vers in site.data.node_js_versions %}
 - `{{vers}}` latest {{vers}}.x release
@@ -45,7 +44,6 @@ releases in your `.travis.yml`:
 ```yaml
 language: node_js
 node_js:
-  - "iojs"
   - "7"
 ```
 {: data-file=".travis.yml"}

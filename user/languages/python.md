@@ -25,7 +25,7 @@ Minimal example:
 {: data-file=".travis.yml"}
 </aside>
 
-{{ site.data.snippets.trusty_note_no_osx }}
+{{ site.data.snippets.linux_note }}
 
 Python builds are not available on the macOS environment.
 
@@ -50,7 +50,6 @@ python:
   - "3.5-dev"  # 3.5 development branch
   - "3.6"
   - "3.6-dev"  # 3.6 development branch
-  - "3.7-dev"  # 3.7 development branch
 # command to install dependencies
 install:
   - pip install -r requirements.txt
@@ -63,9 +62,13 @@ script:
 You can also specify the stable release of Python 3.7 on our Xenial build images:
 
 ```yaml
-dist: xenial
+dist: xenial   # required for Python >= 3.7
 language: python
-python: 3.7
+python:
+  - "3.7"
+  - "3.7-dev"  # 3.7 development branch
+  - "3.8-dev"  # 3.8 development branch
+  - "nightly"  # nightly build
 ```
 {: data-file=".travis.yml"}
 
@@ -103,7 +106,6 @@ in your `.travis.yml`:
 language: python
 python:
   - "2.7"
-  - "3.4"
   - "3.5"
   - "3.6"
   # PyPy versions
@@ -168,6 +170,32 @@ If you're using tox to test your code against multiple versions of python, you h
   * use `language: python` and a build matrix that uses a different version of python for each branch (you can specify the python version by using the `python` key). This will ensure the versions you're interested in are installed and parallelizes your workload.
 
 A good example of a `travis.yml` that runs tox using a Travis build matrix is [twisted/klein](https://github.com/twisted/klein/blob/master/.travis.yml).
+
+## Running Python tests on multiple Operating Systems
+
+Sometimes it is necessary to ensure that software works the same across multiple Operating Systems.  This following `.travis.yml` file will execute parallel test runs on Linux, macOS, and Windows.
+
+```yaml
+language: python            # this works for Linux but is an error on macOS or Windows
+matrix:
+  include:
+    - name: "Python 3.7.1 on Xenial Linux"
+      python: 3.7           # this works for Linux but is ignored on macOS or Windows
+      dist: xenial          # required for Python >= 3.7
+    - name: "Python 3.7.2 on macOS"
+      os: osx
+      osx_image: xcode10.2  # Python 3.7.2 running on macOS 10.14.3
+      language: shell       # 'language: python' is an error on Travis CI macOS
+    - name: "Python 3.7.3 on Windows"
+      os: windows           # Windows 10.0.17134 N/A Build 17134
+      language: shell       # 'language: python' is an error on Travis CI Windows
+      before_install: choco install python
+      env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
+install: pip3 install --upgrade pip  # all three OSes agree about 'pip3'
+# 'python' points to Python 2.7 on macOS but points to Python 3.7 on Linux and Windows
+# 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
+script: python3 my_app.py || python my_app.py
+```
 
 ## Dependency Management
 
